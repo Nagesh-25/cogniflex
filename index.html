@@ -1,0 +1,284 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COGNIFLEX | VR Rehabilitation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* --------- Animations --------- */
+    @keyframes text-glow {
+      0%, 100% { text-shadow: 0 0 20px #ff00f7, 0 0 30px #ff00f7, 0 0 40px #7a00ff; }
+      50% { text-shadow: 0 0 25px #ff4dff, 0 0 40px #ff4dff, 0 0 50px #9500ff; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --------- Base --------- */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(ellipse at center, #1a0033, #080010);
+      color: #e0e0e0;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    nav {
+      position: fixed; top: 0; width: 100%;
+      padding: 15px 5%;
+      display: flex; justify-content: flex-end; gap: 10px;
+      z-index: 1000;
+      background: rgba(12, 1, 23, 0.5);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 0, 247, 0.2);
+    }
+    nav a {
+      text-decoration: none; color: #fff;
+      padding: 8px 18px; border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    nav a:hover {
+      text-shadow: 0 0 8px #fff, 0 0 12px #ff00f7;
+      box-shadow: 0 0 15px #ff00f7;
+    }
+
+    /* Hero */
+    .hero-section {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 0 10%; position: relative;
+      background: url("her-pic.png") no-repeat center right/contain;
+    }
+    .hero-section::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to right, #080010 40%, rgba(8, 0, 16, 0.2));
+    }
+    .hero-text {
+      position: relative; z-index: 2; max-width: 50%;
+      animation: fadeInUp 1s ease-out;
+    }
+    .hero-text h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4.5rem; margin: 0;
+      animation: text-glow 2.5s infinite;
+    }
+
+    /* Sections (fixed spacing) */
+    section {
+      min-height: 65vh;
+      padding: 25px 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin: 10px;
+    }
+
+    .content-box {
+      background: rgba(20, 1, 36, 0.6);
+      border: 1px solid rgba(255, 0, 247, 0.4);
+      padding: 40px; border-radius: 20px;
+      max-width: 900px; width: 100%;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 25px rgba(255,0,247,0.3);
+    }
+    .content-box h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.5rem; margin-bottom: 15px;
+      background: linear-gradient(90deg, #ff00f7, #00f7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Game expand */
+    #gameDetails {
+      max-height: 0; opacity: 0; overflow: hidden;
+      transition: max-height 0.7s ease, opacity 0.7s ease, margin-top 0.7s;
+      display: flex; gap: 20px; margin-top: 0;
+    }
+    #gameDetails.visible { max-height: 500px; opacity: 1; margin-top: 20px; }
+    .game-card {
+      flex: 1; padding: 20px; border-radius: 15px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(0, 247, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0,247,255,0.3);
+    }
+    .game-card h3 { color: #00f7ff; font-family: 'Orbitron'; }
+
+    /* Contact */
+    .contact-cards {
+      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    .contact-card {
+      flex: 1; min-width: 250px; max-width: 280px;
+      padding: 25px; border-radius: 15px;
+      background: rgba(10,0,25,0.7);
+      border: 1px solid rgba(255,0,247,0.4);
+      box-shadow: 0 0 20px rgba(255,0,247,0.4);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px #ff00f7;
+    }
+    .profile-pic {
+      width: 90px; height: 90px; border-radius: 50%; background: #222;
+      margin: 0 auto 15px; border: 2px solid #ff00f7;
+    }
+    .contact-card h3 { margin: 10px 0; color: #fff; }
+    .contact-links a {
+      display: block; margin: 6px 0; color: #00f7ff; text-decoration: none;
+    }
+    .contact-links a:hover { text-shadow: 0 0 8px #00f7ff; }
+
+    /* Buttons */
+    .btn {
+      display: inline-block; padding: 12px 30px;
+      margin-top: 15px; border-radius: 40px;
+      border: 2px solid rgba(10,0,25,0.7); color: rgba(10,0,25,0.7);
+      text-decoration: none; font-weight: 600;
+      transition: 0.3s;
+      box-shadow: 0 0 15px rgba(255,0,247,0.5);
+    }
+    .btn:hover { background: #ff00f7; }
+
+    /* Footer */
+    footer { text-align: center; padding: 20px; font-size: 0.9rem; color: #888; }
+    canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#rehab">Rehabilitation</a>
+    <a href="#vehicle">Vehicle</a>
+    <a href="#bio">Biological</a>
+    <a href="#analytics">Analytics</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section class="hero-section" id="home">
+    <div class="hero-text">
+      <h1>COGNIFLEX</h1>
+      <p>Immersive AR/VR platform for rehabilitation, exploration, and advanced analytics.</p>
+      <a href="#rehab" class="btn">Discover More</a>
+    </div>
+  </section>
+
+  <section id="rehab">
+    <div class="content-box">
+      <h2>Rehabilitation Through Gaming</h2>
+      <p>COGNIFLEX turns therapy into fun with engaging VR experiences to improve mobility and strength.</p>
+      <button class="btn" id="revealGamesBtn">View Games</button>
+      <div id="gameDetails">
+        <div class="game-card">
+          <h3>Fruit Catching</h3>
+          <p>Catch fruits with hand gestures to improve coordination and reflexes.</p>
+        </div>
+        <div class="game-card">
+          <h3>Rock Climbing</h3>
+          <p>Scale neon walls using VR hand tracking to build endurance and strength.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vehicle">
+    <div class="content-box">
+      <h2>Vehicle Parts & Design Exploration</h2>
+      <p>Explore the inner mechanisms of vehicles in VR, from engines to systems, for enhanced learning and design insight.</p>
+    </div>
+  </section>
+
+  <section id="bio">
+    <div class="content-box">
+      <h2>Biological: Human Organs for Medical</h2>
+      <p>Zoom into human organs in 3D for education, diagnosis, and medical training with interactive immersion.</p>
+    </div>
+  </section>
+
+  <section id="analytics">
+    <div class="content-box">
+      <h2>Advanced Tracking & Analytics</h2>
+      <p>COGNIFLEX provides therapists with real-time tracking, progress reports, and adaptive rehabilitation plans.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="content-box">
+      <h2>Contact Us</h2>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="profile-pic"></div>
+          <h3>Person One</h3>
+          <div class="contact-links">
+            <a href="#">LinkedIn</a>
+            <a href="mailto:person1@email.com">Email</a>
+            <a href="tel:+911234567890">+91 12345 67890</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="profile-pic"></div>
+          <h3>Person Two</h3>
+          <div class="contact-links">
+            <a href="#">LinkedIn</a>
+            <a href="mailto:person2@email.com">Email</a>
+            <a href="tel:+911234567891">+91 12345 67891</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="profile-pic"></div>
+          <h3>Person Three</h3>
+          <div class="contact-links">
+            <a href="#">LinkedIn</a>
+            <a href="mailto:person3@email.com">Email</a>
+            <a href="tel:+911234567892">+91 12345 67892</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2025 COGNIFLEX | The Future of Rehabilitation.</footer>
+
+  <script>
+    /* Particles */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let particles = [];
+    const colors = ['#ff00f7','#00f7ff','#7a00ff'];
+    class Particle {
+      constructor(){ this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height;
+        this.size=Math.random()*2+1; this.sx=(Math.random()-0.5); this.sy=(Math.random()-0.5);
+        this.color=colors[Math.floor(Math.random()*colors.length)]; }
+      update(){ this.x+=this.sx; this.y+=this.sy;
+        if(this.x<0||this.x>canvas.width) this.sx*=-1;
+        if(this.y<0||this.y>canvas.height) this.sy*=-1;}
+      draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+        ctx.fillStyle=this.color; ctx.shadowBlur=15; ctx.shadowColor=this.color; ctx.fill();}
+    }
+    function init(){ particles=[]; for(let i=0;i<80;i++)particles.push(new Particle()); }
+    function animate(){ ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(animate);}
+    init(); animate();
+    window.addEventListener('resize',()=>{canvas.width=innerWidth; canvas.height=innerHeight; init();});
+
+    /* Toggle Games */
+    const revealBtn=document.getElementById('revealGamesBtn');
+    const gameDetails=document.getElementById('gameDetails');
+    revealBtn.addEventListener('click',()=>{
+      gameDetails.classList.toggle('visible');
+      revealBtn.textContent=gameDetails.classList.contains('visible')?'Show Less':'View Games';
+    });
+  </script>
+</body>
+</html>
