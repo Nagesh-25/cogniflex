@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -26,15 +26,26 @@
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
+    
+    /* --------- Navigation --------- */
     nav {
       position: fixed; top: 0; width: 100%;
       padding: 15px 5%;
-      display: flex; justify-content: flex-end; gap: 10px;
+      display: flex; 
+      justify-content: space-between; /* Adjusted for logo and links */
+      align-items: center;
       z-index: 1000;
       background: rgba(12, 1, 23, 0.5);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 0, 247, 0.2);
+      box-sizing: border-box;
     }
+    
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+
     nav a {
       text-decoration: none; color: #fff;
       padding: 8px 18px; border-radius: 20px;
@@ -44,6 +55,44 @@
       text-shadow: 0 0 8px #fff, 0 0 12px #ff00f7;
       box-shadow: 0 0 15px #ff00f7;
     }
+
+    .nav-toggle {
+        display: none; /* Hidden by default */
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .nav-toggle .bar {
+        height: 3px;
+        width: 25px;
+        background-color: white;
+        margin: 4px 0;
+        transition: 0.4s;
+    }
+    
+    /* Responsive Navigation */
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            position: absolute;
+            top: 60px; /* Adjust as per your nav height */
+            left: 0;
+            background: rgba(12, 1, 23, 0.9);
+            padding: 20px 0;
+        }
+
+        .nav-links.active {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-toggle {
+            display: flex;
+        }
+    }
+
 
     /* Hero */
     .hero-section {
@@ -157,12 +206,20 @@
   <canvas id="bg-canvas"></canvas>
 
   <nav>
-    <a href="#home">Home</a>
-    <a href="#rehab">Rehabilitation</a>
-    <a href="#vehicle">Vehicle</a>
-    <a href="#bio">Biological</a>
-    <a href="#analytics">Analytics</a>
-    <a href="#contact">Contact</a>
+    <a href="#home" class="logo">COGNIFLEX</a>
+    <div class="nav-toggle" id="navToggle">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#rehab">Rehabilitation</a>
+      <a href="#vehicle">Vehicle</a>
+      <a href="#bio">Biological</a>
+      <a href="#analytics">Analytics</a>
+      <a href="#contact">Contact</a>
+    </div>
   </nav>
 
   <section class="hero-section" id="home">
@@ -278,6 +335,14 @@
     revealBtn.addEventListener('click',()=>{
       gameDetails.classList.toggle('visible');
       revealBtn.textContent=gameDetails.classList.contains('visible')?'Show Less':'View Games';
+    });
+    
+    /* Responsive Navbar Toggle */
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
     });
   </script>
 </body>
