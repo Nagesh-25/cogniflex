@@ -177,8 +177,22 @@
       box-shadow: 0 0 30px #ff00f7;
     }
     .profile-pic {
-      width: 90px; height: 90px; border-radius: 50%; background: #222;
-      margin: 0 auto 15px; border: 2px solid #ff00f7;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #222; /* This background will be for the div, not the image */
+      margin: 0 auto 15px;
+      border: 2px solid #ff00f7;
+      overflow: hidden; /* Crucial: ensures child image is clipped */
+      display: flex; /* Helps center the image if it's smaller */
+      justify-content: center;
+      align-items: center;
+    }
+    .profile-pic img {
+      width: 100%; /* Make the image fill its parent div */
+      height: 100%; /* Make the image fill its parent div */
+      object-fit: cover; /* This is key: crops the image to fit without distortion */
+      border-radius: 50%; /* Ensures the image itself is also circular */
     }
     .contact-card h3 { margin: 10px 0; color: #fff; }
     .contact-links a {
